@@ -13,7 +13,10 @@ require (
 	github.com/gobuffalo/mw-paramlogger v1.0.1
 	github.com/gobuffalo/pop/v6 v6.0.6
 	github.com/gobuffalo/suite/v4 v4.0.3
+	github.com/gobuffalo/validate/v3 v3.3.3
 	github.com/gobuffalo/x v0.1.0
+	github.com/gofrs/uuid v4.2.0+incompatible
+	github.com/markbates/goth v1.73.0
 	github.com/rs/cors v1.8.2
 	github.com/unrolled/secure v1.13.0
 )
@@ -31,25 +34,24 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gobuffalo/events v1.4.2 // indirect
 	github.com/gobuffalo/fizz v1.14.2 // indirect
-	github.com/gobuffalo/flect v0.2.5 // indirect
-	github.com/gobuffalo/github_flavored_markdown v1.1.1 // indirect
-	github.com/gobuffalo/helpers v0.6.5 // indirect
+	github.com/gobuffalo/flect v0.3.0 // indirect
+	github.com/gobuffalo/github_flavored_markdown v1.1.2 // indirect
+	github.com/gobuffalo/helpers v0.6.6 // indirect
 	github.com/gobuffalo/httptest v1.5.1 // indirect
-	github.com/gobuffalo/logger v1.0.6 // indirect
-	github.com/gobuffalo/meta v0.3.2 // indirect
+	github.com/gobuffalo/logger v1.0.7 // indirect
+	github.com/gobuffalo/meta v0.3.3 // indirect
 	github.com/gobuffalo/mw-csrf v1.0.1 // indirect
 	github.com/gobuffalo/nulls v0.4.1 // indirect
-	github.com/gobuffalo/plush/v4 v4.1.14 // indirect
+	github.com/gobuffalo/plush/v4 v4.1.15 // indirect
 	github.com/gobuffalo/refresh v1.13.1 // indirect
-	github.com/gobuffalo/tags/v3 v3.1.3 // indirect
-	github.com/gobuffalo/validate/v3 v3.3.2 // indirect
-	github.com/gofrs/uuid v4.2.0+incompatible // indirect
+	github.com/gobuffalo/tags/v3 v3.1.4 // indirect
+	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/gorilla/handlers v1.5.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/gorilla/sessions v1.2.1 // indirect
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/inconshreveable/mousetrap v1.0.1 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.12.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
@@ -65,9 +67,10 @@ require (
 	github.com/mattn/go-colorable v0.1.9 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mattn/go-sqlite3 v1.14.14 // indirect
-	github.com/microcosm-cc/bluemonday v1.0.16 // indirect
+	github.com/microcosm-cc/bluemonday v1.0.19 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/monoculum/formam v3.5.5+incompatible // indirect
+	github.com/mrjones/oauth v0.0.0-20180629183705-f4e24b6d100c // indirect
 	github.com/nicksnyder/go-i18n v1.10.1 // indirect
 	github.com/pelletier/go-toml v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -81,11 +84,14 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/testify v1.8.0 // indirect
 	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
-	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect
-	golang.org/x/sync v0.0.0-20220601150217-0de741cfad7f // indirect
-	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
-	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
+	golang.org/x/net v0.0.0-20220826154423-83b083e8dc8b // indirect
+	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43 // indirect
+	golang.org/x/sync v0.0.0-20220819030929-7fc1605a5dde // indirect
+	golang.org/x/sys v0.0.0-20220919091848-fb04ddd9f9c8 // indirect
+	golang.org/x/term v0.0.0-20220919170432-7a66f970e087 // indirect
 	golang.org/x/text v0.3.7 // indirect
+	google.golang.org/appengine v1.6.6 // indirect
+	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

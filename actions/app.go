@@ -7,13 +7,12 @@ import (
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo-pop/v3/pop/popmw"
 	"github.com/gobuffalo/envy"
-	contenttype "github.com/gobuffalo/mw-contenttype"
 	forcessl "github.com/gobuffalo/mw-forcessl"
 	i18n "github.com/gobuffalo/mw-i18n/v2"
 	paramlogger "github.com/gobuffalo/mw-paramlogger"
-	"github.com/gobuffalo/x/sessions"
-	"github.com/rs/cors"
 	"github.com/unrolled/secure"
+
+	"github.com/markbates/goth/gothic"
 )
 
 // ENV is used to help switch settings based on where the
@@ -28,25 +27,11 @@ var (
 // App is where all routes and middleware for buffalo
 // should be defined. This is the nerve center of your
 // application.
-//
-// Routing, middleware, groups, etc... are declared TOP -> DOWN.
-// This means if you add a middleware to `app` *after* declaring a
-// group, that group will NOT have that new middleware. The same
-// is true of resource declarations as well.
-//
-// It also means that routes are checked in the order they are declared.
-// `ServeFiles` is a CATCH-ALL route, so it should always be
-// placed last in the route declarations, as it will prevent routes
-// declared after it to never be called.
 func App() *buffalo.App {
 	if app == nil {
 		app = buffalo.New(buffalo.Options{
-			Env:          ENV,
-			SessionStore: sessions.Null{},
-			PreWares: []buffalo.PreWare{
-				cors.Default().Handler,
-			},
-			SessionName: "_message_board_session",
+			Env:         ENV,
+			SessionName: "_brian_session",
 		})
 
 		// Automatically redirect to SSL
@@ -55,14 +40,26 @@ func App() *buffalo.App {
 		// Log request parameters (filters apply).
 		app.Use(paramlogger.ParameterLogger)
 
-		// Set the request content type to JSON
-		app.Use(contenttype.Set("application/json"))
-
 		// Wraps each request in a transaction.
 		//   c.Value("tx").(*pop.Connection)
 		// Remove to disable this.
 		app.Use(popmw.Transaction(models.DB))
-		app.GET("/", HomeHandler)
+		// Setup and use translations:
+		app.Use(translations())
+		app.Use(SetCurrentUser)
+		app.Use(Authorize)
+		bufAuth := buffalo.WrapHandlerFunc(gothic.BeginAuthHandler)
+		app.Middleware.Skip(Authorize, HomeHandler, AuthCallback, bufAuth)
+		app.GET("/", Authorize(SetCurrentUser(HomeHandler)))
+
+		// oAUTH2
+		auth := app.Group("/auth")
+
+		auth.GET("/{provider}", bufAuth)
+		auth.GET("/{provider}/callback", AuthCallback)
+		auth.DELETE("", AuthDestroy)
+		app.Middleware.Skip(Authorize, bufAuth, AuthCallback)
+
 	}
 
 	return app
