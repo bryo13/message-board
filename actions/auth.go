@@ -91,7 +91,7 @@ func Authorize(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
 		if uid := c.Session().Get("current_user_id"); uid == nil {
 			c.Flash().Add("Danger", "You must be authorized")
-			return c.Redirect(302, "/")
+			return c.Render(302, r.JSON("Log in"))
 		}
 		return next(c)
 	}

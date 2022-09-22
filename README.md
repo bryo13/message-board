@@ -37,3 +37,4 @@ We recommend you heading over to [http://gobuffalo.io](http://gobuffalo.io) and 
 Good luck!
 
 [Powered by Buffalo](http://gobuffalo.io)
+step one: oauth2 -> messaging -> implement websockets -> sveltekit frontend

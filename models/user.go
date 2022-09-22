@@ -16,6 +16,7 @@ type User struct {
 	Name       string    `json:"name" db:"name"`
 	Provider   string    `json:"provider" db:"provider"`
 	ProviderID string    `json:"provider_id" db:"provider_id"`
+	Messages   Messages  `has_many:"messages"`
 	CreatedAt  time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt  time.Time `json:"updated_at" db:"updated_at"`
 }

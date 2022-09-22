@@ -7,17 +7,15 @@ require (
 	github.com/gobuffalo/buffalo-pop/v3 v3.0.6
 	github.com/gobuffalo/envy v1.10.2
 	github.com/gobuffalo/grift v1.5.2
-	github.com/gobuffalo/mw-contenttype v1.0.1
 	github.com/gobuffalo/mw-forcessl v1.0.1
 	github.com/gobuffalo/mw-i18n/v2 v2.0.2
 	github.com/gobuffalo/mw-paramlogger v1.0.1
 	github.com/gobuffalo/pop/v6 v6.0.6
 	github.com/gobuffalo/suite/v4 v4.0.3
 	github.com/gobuffalo/validate/v3 v3.3.3
-	github.com/gobuffalo/x v0.1.0
 	github.com/gofrs/uuid v4.2.0+incompatible
 	github.com/markbates/goth v1.73.0
-	github.com/rs/cors v1.8.2
+	github.com/pkg/errors v0.9.1
 	github.com/unrolled/secure v1.13.0
 )
 
@@ -70,10 +68,8 @@ require (
 	github.com/microcosm-cc/bluemonday v1.0.19 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/monoculum/formam v3.5.5+incompatible // indirect
-	github.com/mrjones/oauth v0.0.0-20180629183705-f4e24b6d100c // indirect
 	github.com/nicksnyder/go-i18n v1.10.1 // indirect
 	github.com/pelletier/go-toml v1.2.0 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
