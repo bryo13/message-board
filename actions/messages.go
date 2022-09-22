@@ -1,59 +1,69 @@
 package actions
 
 import (
-	"fmt"
-	"log"
+	"message_board/models"
 	"net/http"
 
 	"github.com/gobuffalo/buffalo"
-	"github.com/gorilla/websocket"
+	"github.com/gobuffalo/pop/v6"
+	"github.com/gofrs/uuid"
+	"github.com/pkg/errors"
 )
 
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
+// MessagesAll default implementation.
+func MessagesAll(c buffalo.Context) error {
+	tx, ok := c.Value("tx").(*pop.Connection)
+	if !ok {
+		return errors.New("Cant get db transaction")
+	}
+	messages := &models.Messages{}
+
+	// Paginate results. Params "page" and "per_page" control pagination.
+	// Default values are "page=1" and "per_page=20".
+	q := tx.PaginateFromParams(c.Params())
+
+	// Retrieve all Blogs from the DB
+	if err := q.All(messages); err != nil {
+		return err
+	}
+	return c.Render(http.StatusOK, r.JSON(messages))
 }
 
-// MessagesSend default implementation.
-func MessagesSend(c buffalo.Context) error {
-	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+// MessagesCreate default implementation.
+func MessagesCreate(c buffalo.Context) error {
+	tx, ok := c.Value("tx").(*pop.Connection)
+	if !ok {
+		return c.Render(400, r.JSON("no db connection found"))
+	}
 
-	// upgrade this connection to a WebSocket
-	// connection
-	ws, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
+	message := &models.Message{}
+	if err := c.Bind(message); err != nil {
+		return errors.WithStack(err)
+	}
+
+	u := c.Value("current_user").(*models.User)
+	if u.ID == uuid.Nil {
+		return errors.New("Please login")
+	}
+
+	message.User = u
+
+	verrs, err := tx.Eager().ValidateAndCreate(message)
 	if err != nil {
-		log.Println(err)
+		return errors.WithStack(err)
 	}
 
-	reader(ws)
-	return c.Render(http.StatusOK, r.HTML("messages/send.html"))
-}
-
-func reader(conn *websocket.Conn) {
-	for {
-		// read in a message
-		messageType, p, err := conn.ReadMessage()
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		// print out that message to terminal
-		fmt.Println(string(p))
-
-		if err := conn.WriteMessage(messageType, p); err != nil {
-			log.Println(err)
-			return
-		}
-		log.Println("Client Connected")
-		err = conn.WriteMessage(1, []byte("Hi Client!"))
-		if err != nil {
-			log.Println(err)
-		}
-
+	if verrs.HasAny() {
+		return errors.WithStack(verrs)
 	}
+
+	return c.Render(200, r.JSON(message))
 }
 
-// MessagesRecieve default implementation.
-func MessagesRecieve(c buffalo.Context) error {
-	return c.Render(http.StatusOK, r.JSON("messages/recieve.html"))
+// SetContentType on request
+func SetContentType(next buffalo.Handler) buffalo.Handler {
+	return func(c buffalo.Context) error {
+		c.Set("Content-Type", "application/json")
+		return next(c)
+	}
 }

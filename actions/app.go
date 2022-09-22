@@ -31,7 +31,7 @@ func App() *buffalo.App {
 	if app == nil {
 		app = buffalo.New(buffalo.Options{
 			Env:         ENV,
-			SessionName: "_brian_session",
+			SessionName: "_messages_board_session",
 		})
 
 		// Automatically redirect to SSL
@@ -47,10 +47,12 @@ func App() *buffalo.App {
 		// Setup and use translations:
 		app.Use(translations())
 
-		//app.Use(SetCurrentUser)
-		//app.Use(Authorize)
+		app.Use(SetCurrentUser)
+		app.Use(Authorize)
+		app.Use(SetContentType)
+
 		bufAuth := buffalo.WrapHandlerFunc(gothic.BeginAuthHandler)
-		app.Middleware.Skip(Authorize, HomeHandler, AuthCallback, bufAuth)
+		app.Middleware.Skip(Authorize, AuthCallback, bufAuth)
 		app.GET("/", Authorize(SetCurrentUser(HomeHandler)))
 
 		// oAUTH2
@@ -61,9 +63,9 @@ func App() *buffalo.App {
 		auth.DELETE("", AuthDestroy)
 		app.Middleware.Skip(Authorize, bufAuth, AuthCallback)
 
-		message := app.Group("/messages")
-		message.GET("/send", MessagesSend)
-		message.GET("/recieve", MessagesRecieve)
+		messages := app.Group("/messages")
+		messages.GET("/all", MessagesAll)
+		messages.POST("/create", MessagesCreate)
 	}
 
 	return app

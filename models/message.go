@@ -14,9 +14,9 @@ import (
 type Message struct {
 	ID        uuid.UUID `json:"id" db:"id"`
 	Text      string    `json:"text" db:"text"`
-	UserID    uuid.UUID `json:"user_id" db"user_id"`
-	User      *User     `belongs_to:"user"`
+	UserID    uuid.UUID `json:"user_id" db:"user_id"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
+	User      *User     `belongs_to:"user"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }
 
