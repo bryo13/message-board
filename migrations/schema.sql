@@ -27,6 +27,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.messages (
     id uuid NOT NULL,
     text character varying(255) NOT NULL,
+    user_id uuid NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -89,6 +90,14 @@ CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USIN
 --
 
 CREATE UNIQUE INDEX users_provider_id_idx ON public.users USING btree (provider_id);
+
+
+--
+-- Name: messages messages_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT messages_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --

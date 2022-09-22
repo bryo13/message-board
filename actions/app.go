@@ -46,8 +46,9 @@ func App() *buffalo.App {
 		app.Use(popmw.Transaction(models.DB))
 		// Setup and use translations:
 		app.Use(translations())
-		app.Use(SetCurrentUser)
-		app.Use(Authorize)
+
+		//app.Use(SetCurrentUser)
+		//app.Use(Authorize)
 		bufAuth := buffalo.WrapHandlerFunc(gothic.BeginAuthHandler)
 		app.Middleware.Skip(Authorize, HomeHandler, AuthCallback, bufAuth)
 		app.GET("/", Authorize(SetCurrentUser(HomeHandler)))
@@ -60,6 +61,9 @@ func App() *buffalo.App {
 		auth.DELETE("", AuthDestroy)
 		app.Middleware.Skip(Authorize, bufAuth, AuthCallback)
 
+		message := app.Group("/messages")
+		message.GET("/send", MessagesSend)
+		message.GET("/recieve", MessagesRecieve)
 	}
 
 	return app
